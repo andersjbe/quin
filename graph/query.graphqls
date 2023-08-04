@@ -1,0 +1,40 @@
+type Query {
+  myAccount: User!
+
+  myProfile: Profile!
+  profiles(filter: ProfileFilter): [Profile!]!
+  profile(profileId: ID!): Profile!
+
+  products(filter: ProductFilter): [Product!]!
+  product(productId: ID!): Product!
+  savedProducts: [Product!]!
+
+  outfits: [Outfit!]!
+  outfit(outfitId: ID!): Outfit!
+  outfitsByFollowing: [Outfit!]!
+  likedOutfits: [Outfit!]!
+}
+
+input ProfileFilter {
+  gender: Gender
+  heightInches: Int
+  weightLbs: Int
+  skinPigmentationValue: Int
+  hairColor: String
+  eyeColor: String
+  shirtSize: String
+  bustInches: Int
+  waistInches: Int
+  hipInches: Int
+  pantLengthInches: Int
+  shoeSize: Int
+}
+
+input ProductFilter {
+  isAvailableToBuy: Boolean
+  productGender: ProductGender
+  category: ProductCategory
+  materials: [String!]!
+  colors: [String!]!
+  pattern: String
+}

@@ -1,0 +1,85 @@
+type Mutation {
+  signUp(input: CreateUser!): String!
+  login(input: Login!): String!
+  refreshToken(token: String!): String!
+
+  updateProfile(input: UpdateAccountDetails!): User!
+  followProfile(profileID: ID!): Boolean!
+  unfollowProfile(profileID: ID!): Boolean!
+
+  submitProduct(input: NewProduct!): Product!
+  updateProduct(productId: ID!, input: ProductUpdate!): Product!
+  savedProduct(productId: ID!): Boolean!
+  unsaveProduct(productId: ID!): Boolean!
+
+  createOutfit(input: NewOutfit!): Outfit!
+  updateOutfit(outfitId: ID!, input: NewOutfit!): Outfit!
+  likeOutfit(outfitId: ID!): Boolean!
+  unlikeOutfit(outfitId: ID!): Boolean!
+}
+
+input CreateUser {
+  firstName: String!
+  lastName: String
+  username: String!
+  email: String!
+  password: String!
+}
+
+input Login {
+  email: String!
+  password: String!
+}
+
+input UpdateAccountDetails {
+  firstName: String
+  lastName: String
+  gender: Gender
+  heightInches: Int
+  bustInches: Int
+  waistInches: Int
+  hipInches: Int
+  pantLengthInches: Int
+  shoeSize: Int
+  weightLbs: Int
+  skinPigmentationValue: Int
+  hairColor: String
+  eyeColor: String
+}
+
+input NewProduct {
+  name: String!
+  description: String
+  sourceUrl: String
+  isAvailableToBuy: Boolean
+  productGender: ProductGender
+  materials: [String!]!
+  variants: [NewProductVariant!]!
+}
+
+input ProductUpdate {
+  name: String
+  description: String
+  sourceUrl: String
+  isAvailableToBuy: Boolean
+  productGender: ProductGender
+  materials: [String!]
+  variants: [NewProductVariant!]
+}
+
+input NewProductVariant {
+  name: String!
+  colors: [String!]!
+  pattern: String
+}
+
+input NewOutfit {
+  name: String
+  description: String
+  pieces: [NewOutfitPiece!]!
+}
+
+input NewOutfitPiece {
+  variantId: ID!
+  size: String!
+}

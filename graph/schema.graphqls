@@ -1,0 +1,107 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String
+  email: String!
+
+  Profile: Profile!
+}
+
+type Profile {
+  id: ID!
+  username: String!
+  imageUrl: String!
+  gender: Gender
+  heightInches: Int
+  weightLbs: Int
+  skinPigmentationValue: Int
+  hairColor: String
+  eyeColor: String
+
+  sizes: ProductSize
+  following: [Profile!]!
+  followers: [Profile!]!
+  createdOutfits: [Outfit!]!
+  likedOutfits: [Outfit!]!
+  productWishlist: [Product!]!
+}
+
+enum Gender {
+  MAN
+  WOMAN
+  NONBINARY
+}
+
+type ProductSize {
+  shirtSize: String
+  bustInches: Int
+  waistInches: Int
+  hipInches: Int
+  pantLengthInches: Int
+  shoeSize: Int
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  sourceUrl: String
+  isAvailableToBuy: Boolean
+  productGender: ProductGender
+  category: ProductCategory
+  materials: [String!]!
+
+  variants: [ProductVariant!]!
+  submittedBy: Profile!
+  outfitsUsedIn: [Outfit!]!
+}
+
+enum ProductGender {
+  MALE
+  FEMALE
+  UNISEX
+}
+
+
+enum ProductCategory {
+  HEADWEAR
+  EYEWEAR
+  TOPS
+  BOTTOMS
+  DRESSES
+  OUTERWEAR
+  ACCESSORIES
+  SHOES
+  SWIMWEAR
+  PIERCINGS
+  NECKLACES
+  RINGS
+}
+
+type ProductVariant {
+  id: ID!
+  name: String!
+  colors: [String!]!
+  pattern: String
+  imageUrls: [String!]!
+}
+
+type Outfit {
+  id: ID!
+  description: String
+  likes: Int!
+  imageUrls: [String!]!
+
+  Profile: Profile!
+  pieces: [OutfitPiece!]!
+}
+
+type OutfitPiece {
+  id: ID!
+  size: ProductSize!
+  variant: ProductVariant!
+}

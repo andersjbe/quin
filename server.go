@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +15,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 const defaultPort = "8080"
@@ -22,8 +23,8 @@ const defaultPort = "8080"
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-    log.Fatal("Error loading .env file")
-  }
+		log.Fatal("Error loading .env file")
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -32,7 +33,12 @@ func main() {
 
 	router := chi.NewRouter()
 
-	conn, err := sql.Open("mysql", os.Getenv("DATABASE_URL"))
+	conn, err := sql.Open(
+		"postgres", 
+		fmt.Sprintf(
+			"user=%s password=%s dbname=%s sslmode=verify-full", 
+			os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DATABASE")
+		))
 	if err != nil {
 		log.Fatal("Could not establish database connection", err)
 	}

@@ -1,15 +1,15 @@
 -- name: CreateUser :execlastid
-INSERT INTO users (id, first_name, last_name, email, password)
-VALUES (UUID_TO_BIN(UUID(), 1), ?, ?, ?, ?);
+INSERT INTO users (first_name, last_name, email, password)
+VALUES ($1, $2, $3, $4);
 
 -- name: GetUserByID :one
-SELECT BIN_TO_UUID(id, 1) AS uuid, * FROM users
-WHERE id = UUID_TO_BIN(?, 1)
+SELECT * FROM users
+WHERE id = $1
 LIMIT 1;
 
 -- name: GetUserByEmail :one
-SELECT BIN_TO_UUID(id, 1) AS uuid, * FROM users
-WHERE email = ?
+SELECT * FROM users
+WHERE email = $1
 LIMIT 1;
 
 -- name: UpdateUser :exec
@@ -19,8 +19,8 @@ SET
   last_name=coalesce(sqlc.narg('last_name'), last_name),
   email=coalesce(sqlc.narg('email'), email),
   password=coalesce(sqlc.narg('password'), password)
-WHERE id = UUID_TO_BIN(sqlc.arg('id'));
+WHERE id = sqlc.arg('id')::UUID;
 
 -- name: DeleteUser :exec
 DELETE FROM users
-WHERE id = ?;
+WHERE id = $1;
